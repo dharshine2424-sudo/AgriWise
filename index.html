@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AgriWise — Smart Farming Assistant for Indian vegetable farmers. Compare market prices, calculate profit, and get storage tips." />
+  <title>AgriWise — Smart Farmer Assistant</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ==================== NAVBAR ==================== -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-brand">
+      <span class="nav-logo">🌾</span>
+      <span class="nav-title">AgriWise</span>
+    </div>
+    <div class="nav-tabs" id="navTabs">
+      <button class="nav-tab active"  data-section="dashboard">🏠 Dashboard</button>
+      <button class="nav-tab"         data-section="crops">🌿 My Crops</button>
+      <button class="nav-tab"         data-section="market">📊 Market Prices</button>
+      <button class="nav-tab"         data-section="calculator">🧮 Calculator</button>
+      <button class="nav-tab"         data-section="cooperative">🤝 Cooperative</button>
+      <button class="nav-tab"         data-section="storage">📦 Storage</button>
+    </div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">☰</button>
+  </nav>
+
+  <!-- Mobile Slide-Down Nav -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-tab active" data-section="dashboard">🏠 Dashboard</button>
+    <button class="mobile-nav-tab"        data-section="crops">🌿 My Crops</button>
+    <button class="mobile-nav-tab"        data-section="market">📊 Market Prices</button>
+    <button class="mobile-nav-tab"        data-section="calculator">🧮 Calculator</button>
+    <button class="mobile-nav-tab"        data-section="cooperative">🤝 Cooperative</button>
+    <button class="mobile-nav-tab"        data-section="storage">📦 Storage</button>
+  </div>
+
+  <main>
+
+    <!-- ==================== DASHBOARD ==================== -->
+    <section id="dashboard" class="section">
+
+      <!-- Hero Banner -->
+      <div class="hero">
+        <div class="h-circle h-c1"></div>
+        <div class="h-circle h-c2"></div>
+        <div class="h-circle h-c3"></div>
+        <div class="hero-content">
+          <p class="hero-season" id="heroSeason">🌿 Loading season…</p>
+          <h1 class="hero-title">Welcome, Farmer! 🌾</h1>
+          <p class="hero-sub">Your smart assistant for better vegetable farming decisions</p>
+          <div class="hero-date" id="heroDate"></div>
+        </div>
+      </div>
+
+      <div class="container">
+
+        <!-- Stat Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">🌿</div>
+            <div>
+              <div class="stat-value">14</div>
+              <div class="stat-label">Crops Available</div>
+            </div>
+          </div>
+          <div class="stat-card gold-card">
+            <div class="stat-icon">💰</div>
+            <div>
+              <div class="stat-value" id="statBestPrice">Select a Crop</div>
+              <div class="stat-label">Best Market Price</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div>
+              <div class="stat-value">3</div>
+              <div class="stat-label">Markets Compared</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📦</div>
+            <div>
+              <div class="stat-value">14</div>
+              <div class="stat-label">Storage Guides</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <h2 class="qa-heading">Quick Actions</h2>
+        <div class="quick-actions">
+          <button class="qa-btn" data-section="crops">
+            <span class="qa-icon">🌿</span>
+            <span class="qa-label">Select Crop</span>
+          </button>
+          <button class="qa-btn" data-section="market">
+            <span class="qa-icon">📊</span>
+            <span class="qa-label">Check Prices</span>
+          </button>
+          <button class="qa-btn" data-section="calculator">
+            <span class="qa-icon">🧮</span>
+            <span class="qa-label">Calculate Profit</span>
+          </button>
+          <button class="qa-btn" data-section="cooperative">
+            <span class="qa-icon">🤝</span>
+            <span class="qa-label">Cooperative</span>
+          </button>
+          <button class="qa-btn" data-section="storage">
+            <span class="qa-icon">📦</span>
+            <span class="qa-label">Storage Tips</span>
+          </button>
+        </div>
+
+        <!-- Tip of the Day -->
+        <div class="tip-card">
+          <span class="tip-icon">💡</span>
+          <div>
+            <div class="tip-badge">💡 Tip of the Day</div>
+            <div class="tip-text" id="tipText">Loading…</div>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- /dashboard -->
+
+    <!-- ==================== CROP SELECTION ==================== -->
+    <section id="crops" class="section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">🌿 Select Your Crop</h2>
+          <p class="section-desc">
+            Tap on your crop to see market prices, calculate profit, and get storage tips.
+          </p>
+        </div>
+
+        <!-- Selected Crop Banner (hidden until a crop is clicked) -->
+        <div class="crop-banner" id="selectedCropBanner" style="display:none">
+          <span id="selectedCropText"></span>
+          <span class="banner-hint">↓ Scroll down to see prices and tips</span>
+        </div>
+
+        <!-- 14 Crop Cards — generated by JS -->
+        <div class="crops-grid" id="cropsGrid"></div>
+
+      </div>
+    </section><!-- /crops -->
+
+    <!-- ==================== MARKET PRICES ==================== -->
+    <section id="market" class="section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">📊 Market Price Comparison</h2>
+          <p class="section-desc">
+            Compare prices across Local Mandi, District Market, and Online Platform.
+          </p>
+        </div>
+
+        <!-- ⚠️ SAMPLE DATA DISCLAIMER (always visible) -->
+        <div class="disclaimer">
+          <span class="disc-icon">⚠️</span>
+          <div>
+            <strong>Sample Demonstration Prices — NOT Live Market Data.</strong>
+            These prices are fixed example values for demonstration only.
+            Actual prices change daily. For real rates, visit
+            <a href="https://agmarknet.gov.in" target="_blank" rel="noopener">Agmarknet.gov.in</a>
+            or check your local mandi.
+          </div>
+        </div>
+
+        <!-- Prompt shown when no crop is selected -->
+        <div class="market-prompt" id="marketPrompt">
+          <div class="prompt-icon">👆</div>
+          <p class="prompt-text">
+            Select a crop from the
+            <button class="inline-link" data-section="crops">My Crops section</button>
+            to see detailed market prices.
+          </p>
+        </div>
+
+        <!-- Crop-specific market data (shown after crop is selected) -->
+        <div id="marketContent" style="display:none">
+          <div class="mkt-crop-hdr" id="marketCropHeader"></div>
+          <div class="price-cards"  id="priceCards"></div>
+          <div class="chart-box">
+            <h3 class="chart-title">📈 Price Comparison Chart (₹ per kg)</h3>
+            <div id="priceChart"></div>
+          </div>
+        </div>
+
+        <!-- All Crops Price Table (always visible) -->
+        <div class="table-box" style="margin-top: 36px">
+          <h3 class="chart-title">All 14 Vegetables — Sample Price Reference (₹/kg)</h3>
+          <p style="font-size:.82rem;color:var(--gray-400);margin-bottom:4px">
+            ⚠️ Sample data only — not live prices. Click any row to select that crop.
+          </p>
+          <div class="tbl-scroll">
+            <table class="price-table" id="priceTableAll"></table>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- /market -->
+
+    <!-- ==================== PROFIT CALCULATOR ==================== -->
+    <section id="calculator" class="section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">🧮 Profit Calculator</h2>
+          <p class="section-desc">
+            Calculate your expected earnings after production, transport, and selling costs.
+          </p>
+        </div>
+
+        <!-- ⚠️ SAMPLE DATA DISCLAIMER -->
+        <div class="disclaimer" style="margin-bottom:28px">
+          <span class="disc-icon">⚠️</span>
+          <div>
+            <strong>Note:</strong> Selling prices used here are sample demonstration data.
+            Your actual mandi price will differ. Always verify current rates before making decisions.
+          </div>
+        </div>
+
+        <div class="calc-layout">
+
+          <!-- Input Form -->
+          <div class="calc-form">
+            <h3 class="form-heading">Enter Your Details</h3>
+
+            <div class="form-group">
+              <label for="calcCrop">Crop Name</label>
+              <select id="calcCrop">
+                <option value="">-- Select a Crop --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="calcMarket">Sell at Which Market?</label>
+              <select id="calcMarket">
+                <option value="local">🏪 Local Mandi</option>
+                <option value="district">🏢 District Market</option>
+                <option value="online">💻 Online Platform</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="calcQty">
+                Quantity to Sell (kg)
+                <span class="lbl-hint">How many kilograms are you planning to sell?</span>
+              </label>
+              <input type="number" id="calcQty" min="1" value="100" placeholder="e.g. 100" />
+            </div>
+
+            <div class="form-group">
+              <label for="calcProdCost">
+                Production Cost (₹)
+                <span class="lbl-hint">Total farming cost — seeds, fertilizer, water, and labour</span>
+              </label>
+              <input type="number" id="calcProdCost" min="0" value="500" placeholder="e.g. 500" />
+            </div>
+
+            <div class="form-group">
+              <label for="calcTransportRate">
+                Transport Rate (₹ per km)
+                <span class="lbl-hint">Cost per kilometre to hire a vehicle</span>
+              </label>
+              <input type="number" id="calcTransportRate" min="0" value="8" placeholder="e.g. 8" />
+            </div>
+
+            <div class="form-group">
+              <label for="calcDistance">Distance to Market (km)</label>
+              <input type="number" id="calcDistance" min="0" value="15" placeholder="e.g. 15" />
+            </div>
+
+            <div class="form-group">
+              <label for="calcCommission">
+                Market Commission (%)
+                <span class="lbl-hint">Typical mandi commission is 2–5%</span>
+              </label>
+              <input type="number" id="calcCommission" min="0" max="100" value="3" placeholder="e.g. 3" />
+            </div>
+
+            <div class="form-group">
+              <label for="calcPackaging">
+                Packaging Cost (₹)
+                <span class="lbl-hint">Total cost of bags, crates, or boxes</span>
+              </label>
+              <input type="number" id="calcPackaging" min="0" value="50" placeholder="e.g. 50" />
+            </div>
+
+            <div class="calc-actions">
+              <button class="btn-primary"   id="calculateBtn">🧮 Calculate Profit</button>
+              <button class="btn-secondary" id="resetCalcBtn">↺ Reset</button>
+            </div>
+          </div>
+
+          <!-- Results Panel -->
+          <div class="calc-result">
+            <div class="result-hdr">
+              <h3 class="result-title">💰 Your Results</h3>
+              <p class="result-crop-name" id="resultCropName">No crop selected</p>
+            </div>
+            <div id="resultItems">
+              <div class="result-placeholder">
+                <span>👆</span>
+                <p>Fill in the form and click "Calculate Profit" to see your earnings.</p>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /calc-layout -->
+      </div>
+    </section><!-- /calculator -->
+
+    <!-- ==================== COOPERATIVE SELLING ==================== -->
+    <section id="cooperative" class="section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">🤝 Cooperative Selling</h2>
+          <p class="section-desc">
+            Join with other farmers to sell together, share costs, and earn more money.
+          </p>
+        </div>
+
+        <!-- What is Cooperative Selling -->
+        <div class="coop-intro">
+          <span class="coop-big-icon">🤝</span>
+          <div>
+            <h3>What is Cooperative Selling?</h3>
+            <p>
+              When multiple farmers combine their produce and sell together as a group, they get
+              better prices, save on transport, and have stronger bargaining power with buyers.
+              This is called <strong>Cooperative Selling</strong>. It is one of the most effective
+              ways for small farmers to increase their income.
+            </p>
+          </div>
+        </div>
+
+        <!-- 6 Benefits -->
+        <div class="benefits-grid">
+          <div class="benefit-card">
+            <span class="benefit-icon">💰</span>
+            <h4>Better Prices</h4>
+            <p>Large bulk quantities attract buyers who pay 10–20% more per kg than individual small sellers.</p>
+          </div>
+          <div class="benefit-card">
+            <span class="benefit-icon">🚛</span>
+            <h4>Shared Transport</h4>
+            <p>Split vehicle costs with other farmers. 5 farmers sharing a truck saves ₹500–₹2,000 per trip.</p>
+          </div>
+          <div class="benefit-card">
+            <span class="benefit-icon">📦</span>
+            <h4>Bulk Packaging</h4>
+            <p>Buy packaging materials at wholesale rates — save 30–40% compared to buying individually.</p>
+          </div>
+          <div class="benefit-card">
+            <span class="benefit-icon">🏦</span>
+            <h4>Better Loans</h4>
+            <p>Farmer cooperatives can access government schemes and low-interest loans more easily.</p>
+          </div>
+          <div class="benefit-card">
+            <span class="benefit-icon">📢</span>
+            <h4>More Bargaining Power</h4>
+            <p>A group of 10 farmers can negotiate better terms than each farmer selling alone.</p>
+          </div>
+          <div class="benefit-card">
+            <span class="benefit-icon">🛒</span>
+            <h4>Direct to Buyers</h4>
+            <p>Cooperatives can sell directly to supermarkets and hotels, bypassing middlemen entirely.</p>
+          </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <div class="coop-cmp-box">
+          <h3 class="chart-title">Solo vs. Cooperative Selling — Example with Tomato</h3>
+
+          <div class="disclaimer" style="margin-bottom:18px">
+            <span class="disc-icon">⚠️</span>
+            <div>
+              <strong>Sample Illustration Only</strong> — These numbers are for demonstration purposes
+              and do not reflect actual market prices.
+            </div>
+          </div>
+
+          <div class="cmp-scroll">
+            <table class="cmp-table">
+              <thead>
+                <tr>
+                  <th>Factor</th>
+                  <th>Solo Farmer</th>
+                  <th class="hi">🤝 Cooperative Group (5 Farmers)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Quantity</td>
+                  <td>100 kg Tomato</td>
+                  <td class="hi">500 kg (5 farmers × 100 kg)</td>
+                </tr>
+                <tr>
+                  <td>Selling Price</td>
+                  <td>₹18/kg (Local Mandi)</td>
+                  <td class="hi">₹24/kg (District Market)</td>
+                </tr>
+                <tr>
+                  <td>Gross Revenue</td>
+                  <td>₹1,800</td>
+                  <td class="hi">₹12,000 (÷ 5 = ₹2,400 per farmer)</td>
+                </tr>
+                <tr>
+                  <td>Transport Cost</td>
+                  <td>₹240 (alone, 15 km × ₹8 × 2)</td>
+                  <td class="hi">₹48 per farmer (shared — ₹240 ÷ 5)</td>
+                </tr>
+                <tr>
+                  <td>Packaging</td>
+                  <td>₹50</td>
+                  <td class="hi">₹35 per farmer (bulk rate)</td>
+                </tr>
+                <tr>
+                  <td>Commission (3%)</td>
+                  <td>₹54</td>
+                  <td class="hi">₹72 per farmer</td>
+                </tr>
+                <tr class="total">
+                  <td><strong>Net Profit per Farmer</strong></td>
+                  <td><strong>₹1,456</strong></td>
+                  <td class="hi"><strong>₹2,245 &nbsp;(+54% more!)</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Contact CTA -->
+        <div class="coop-cta-box">
+          <h3>Interested in Joining a Cooperative?</h3>
+          <p>Contact your local Agricultural Office or call the national Kisan helpline.</p>
+          <div class="contact-row">
+            <div class="contact-item">
+              <span class="contact-icon">📞</span>
+              <div>
+                <strong>Kisan Call Centre</strong>
+                <span>1800-180-1551 (Toll Free)</span>
+              </div>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">🌐</span>
+              <div>
+                <strong>Government Portal</strong>
+                <span>www.farmer.gov.in</span>
+              </div>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">🏛️</span>
+              <div>
+                <strong>Local Agricultural Office</strong>
+                <span>Visit your nearest Krishi Vigyan Kendra</span>
+              </div>
+            </div>
+          </div>
+          <p class="coop-note">
+            * AgriWise is a demonstration tool. The above contact details are for information purposes only.
+          </p>
+        </div>
+
+      </div>
+    </section><!-- /cooperative -->
+
+    <!-- ==================== STORAGE GUIDANCE ==================== -->
+    <section id="storage" class="section">
+      <div class="container">
+
+        <div class="section-header">
+          <h2 class="section-title">📦 Crop Storage Guidance</h2>
+          <p class="section-desc">
+            Learn how to store your vegetables properly to reduce losses and maintain quality.
+          </p>
+        </div>
+
+        <!-- Prompt (shown when no crop selected) -->
+        <div class="storage-prompt" id="storagePrompt">
+          <div class="prompt-icon">👆</div>
+          <p class="prompt-text">
+            Select a crop from the
+            <button class="inline-link" data-section="crops">My Crops section</button>
+            to see its detailed storage guide.
+          </p>
+        </div>
+
+        <!-- Storage content (shown after crop selected) -->
+        <div id="storageContent" style="display:none">
+          <div class="storage-hdr" id="storageCropHeader"></div>
+          <div class="storage-conditions" id="storageConditions"></div>
+          <div class="tips-box"  id="storageTips"></div>
+          <div class="warn-box"  id="storageWarning"></div>
+        </div>
+
+        <!-- Quick Reference (always visible) -->
+        <div class="storage-ref-box">
+          <h3 class="chart-title">All 14 Vegetables — Storage Quick Reference</h3>
+          <p style="font-size:.82rem;color:var(--gray-400);margin-bottom:4px">
+            Click any card to see the full storage guide for that vegetable.
+          </p>
+          <div class="ref-grid" id="storageRefGrid"></div>
+        </div>
+
+      </div>
+    </section><!-- /storage -->
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <span class="footer-logo">🌾</span>
+          <div>
+            <strong>AgriWise</strong>
+            <p>Smart Farmer Assistant</p>
+          </div>
+        </div>
+        <div class="footer-note">
+          <p>
+            ⚠️ All prices and data shown are <strong>sample demonstration values only</strong> —
+            not live market data. Actual market prices change daily.
+          </p>
+          <p>
+            For real-time prices:
+            <a href="https://agmarknet.gov.in" target="_blank" rel="noopener">Agmarknet.gov.in</a>
+            &nbsp;|&nbsp; Kisan Call Centre: <strong>1800-180-1551</strong> (Toll Free)
+          </p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        AgriWise — A demonstration tool for Indian vegetable farmers ·
+        <span id="footerYear"></span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
